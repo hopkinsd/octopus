@@ -1,6 +1,6 @@
 require "spec_helper"
 
-if Octopus.rails3?
+unless Octopus.rails2?
   describe Octopus::LogSubscriber, :shards => [:canada] do
 
     before :each do

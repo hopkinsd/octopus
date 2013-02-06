@@ -226,7 +226,7 @@ describe Octopus::Model do
         User.using(:brazil).find_by_name("Mike").should == u
       end
 
-      if Octopus.rails31? || Octopus.rails32?
+      if Octopus.rails31? || Octopus.rails32? || Octopus.rails4?
         # Rails <= 3.0 doesn't support equality checks on non-persisted objects
         it "should check current_shard when determining equality" do
           canada1.should_not == brazil1
@@ -299,7 +299,7 @@ describe Octopus::Model do
       User.using(:brazil).find(:all, :conditions => {:name => "User2"}).count.should == 1
     end
 
-    if Octopus.rails3?
+    unless Octopus.rails2?
       describe "any?" do
         before { User.using(:brazil).create!(:name => "User1") }
 
@@ -403,7 +403,7 @@ describe Octopus::Model do
     end
   end
 
-  if Octopus.rails32?
+  if Octopus.rails32? || Octopus.rails4?
     describe "when using table_name=" do
       it 'should work correctly' do
         Ham.using(:brazil).create!(:name => "YUMMMYYYY")
@@ -444,7 +444,7 @@ describe Octopus::Model do
     end
 
     it "should work using the rails 3.x syntax" do
-      if Octopus.rails3?
+      unless Octopus.rails2?
         items = Item.using(:canada).joins(:client).where("clients.id = #{@client2.id}").all
         items.should == [@item1, @item2]
       end
@@ -456,7 +456,7 @@ describe Octopus::Model do
     end
 
     it "should work for include also, rails 3.x syntax" do
-      if Octopus.rails3?
+      unless Octopus.rails2?
         items = Item.using(:canada).includes(:client).where("clients.id = #{@client2.id}").all
         items.should == [@item1, @item2]
       end

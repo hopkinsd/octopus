@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe Octopus::ScopeProxy do
   it "should allow nested queries" do
-    if Octopus.rails3?
+    unless Octopus.rails2?
       @user1 = User.using(:brazil).create!(:name => "Thiago P", :number => 3)
       @user2 = User.using(:brazil).create!(:name => "Thiago", :number => 1)
       @user3 = User.using(:brazil).create!(:name => "Thiago", :number => 2)

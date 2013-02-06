@@ -18,12 +18,12 @@ module Octopus::Migration
     end
   end
 
-  include InstanceOrClassMethods if Octopus.rails31? || Octopus.rails32?
+  include InstanceOrClassMethods if Octopus.rails31? || Octopus.rails32? || Octopus.rails4?
 
   def self.included(base)
     base.send(:extend, ClassMethods)
 
-    if Octopus.rails31? || Octopus.rails32?
+    if Octopus.rails31? || Octopus.rails32? || Octopus.rails4?
       base.alias_method_chain :announce, :octopus
     else
       base.class_eval do
@@ -152,7 +152,7 @@ end
 
 module Octopus::MigrationProxy
   def shards
-    if Octopus.rails31? || Octopus.rails32?
+    if Octopus.rails31? || Octopus.rails32? || Octopus.rails4?
       migration.class.shards
     else
       migration.shards

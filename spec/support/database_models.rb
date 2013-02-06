@@ -77,14 +77,22 @@ end
 
 
 class Bacon < ActiveRecord::Base
-  set_table_name "yummy"
+  if Octopus.rails4?
+    self.table_name = "yummy"
+  else
+    set_table_name "yummy"
+  end
 end
 
 class Cheese < ActiveRecord::Base
-  set_table_name { "yummy" }
+  if Octopus.rails4?
+    self.table_name = "yummy"
+  else
+    set_table_name { "yummy" }
+  end
 end
 
-if Octopus.rails32?
+if Octopus.rails32? || Octopus.rails4?
   class Ham < ActiveRecord::Base
     self.table_name = "yummy"
   end

@@ -6,7 +6,7 @@ namespace :octopus do
     connection = ActiveRecord::Base.connection
 
     current_version  = ActiveRecord::Migrator.current_version
-    migrations_paths = if Octopus.rails31? || Octopus.rails32?
+    migrations_paths = if Octopus.rails31? || Octopus.rails32? || Octopus.rails4?
                          ActiveRecord::Migrator.migrations_paths
                        else
                          ActiveRecord::Migrator.migrations_path

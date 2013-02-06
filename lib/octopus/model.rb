@@ -16,7 +16,7 @@ module Octopus::Model
         self.reset_table_name()
       end
 
-      if Octopus.rails3?
+      unless Octopus.rails2?
         self.reset_column_information
         self.instance_variable_set(:@quoted_table_name, nil)
       end
@@ -45,12 +45,12 @@ module Octopus::Model
         end
       end
 
-      if Octopus.rails3?
-        after_initialize :set_current_shard
-      else
+      if Octopus.rails2?
         def after_initialize
           set_current_shard()
-        end
+        end        
+      else
+        after_initialize :set_current_shard
       end
     end
 
@@ -142,13 +142,14 @@ module Octopus::Model
         attr_accessor :custom_octopus_table_name
 
         alias_method_chain(:establish_connection, :octopus)
-        alias_method_chain(:set_table_name, :octopus)
-
-        if Octopus.rails32?
+        
+        if Octopus.rails32? || Octopus.rails4?
           def table_name=(value = nil)
             self.custom_octopus_table_name = true
             super
           end
+        else
+          alias_method_chain(:set_table_name, :octopus)
         end
       end
     end
