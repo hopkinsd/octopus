@@ -124,7 +124,11 @@ if Octopus.rails3? || Octopus.rails4?
   require "octopus/rails3/persistence"
   require "octopus/rails3/arel"
   require "octopus/rails3/log_subscriber"
-  require "octopus/rails3/abstract_adapter"
+  if Octopus.rails4?
+    require "octopus/rails4/abstract_adapter"
+  else
+    require "octopus/rails3/abstract_adapter"
+  end
   require "octopus/railtie"
 end
 
