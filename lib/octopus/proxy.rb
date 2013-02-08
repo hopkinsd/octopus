@@ -219,7 +219,11 @@ class Octopus::Proxy
   end
 
   def resolve_string_connection(spec)
-    ActiveRecord::Base::ConnectionSpecification::Resolver.new(spec, {}).spec.config.stringify_keys
+    if Octopus.rails4?
+      ActiveRecord::ConnectionAdapters::ConnectionSpecification::Resolver.new(spec, {}).spec.config.stringify_keys
+    else
+      ActiveRecord::Base::ConnectionSpecification::Resolver.new(spec, {}).spec.config.stringify_keys
+    end
   end
 
   def should_clean_connection?(method)
