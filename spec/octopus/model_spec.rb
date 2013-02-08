@@ -155,8 +155,13 @@ describe Octopus::Model do
         master_user = User.using(:master).create!(:name => "Master")
         alone_user.name = "teste"
         alone_user.save
-        User.using(:master).find(:first).name.should == "Master"
-        User.using(:alone_shard).find(:first).name.should == "teste"
+        if Octopus.rails4?
+          User.using(:master).first.name.should == "Master"
+          User.using(:alone_shard).first.name.should == "teste"
+        else
+          User.using(:master).find(:first).name.should == "Master"
+          User.using(:alone_shard).find(:first).name.should == "teste"          
+        end
       end
 
       it "should work for the reload method" do
