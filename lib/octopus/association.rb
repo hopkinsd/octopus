@@ -15,12 +15,12 @@ module Octopus::Association
     end
   end
 
-  def has_many(association_id, options = {}, &extension)
+  def has_many(association_id, scope = nil, options = {}, &extension)
     default_octopus_opts(options)
     super
   end
 
-  def has_and_belongs_to_many(association_id, options = {}, &extension)
+  def has_and_belongs_to_many(association_id, scope = nil, options = {}, &extension)
     default_octopus_opts(options)
     super
   end
